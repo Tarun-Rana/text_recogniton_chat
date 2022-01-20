@@ -1,5 +1,6 @@
 import re
 import long_responses as long
+from tkinter import filedialog
 
 
 def message_probability(user_message, recognised_words, single_response=False, required_words=[]):
@@ -35,12 +36,15 @@ def check_all_messages(message):
         nonlocal highest_prob_list
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
 
+
+
     # Responses -------------------------------------------------------------------------------------------------------
     response('Hello!', ['hello', 'hi', 'hey', 'sup', 'heyo'], single_response=True)
     response('See you!', ['bye', 'goodbye'], single_response=True)
     response('I\'m doing fine, and you?', ['how', 'are', 'you', 'doing'], required_words=['how'])
     response('You\'re welcome!', ['thank', 'thanks'], single_response=True)
     response('Thank you!', ['i', 'love', 'code', 'palace'], required_words=['code', 'palace'])
+    
 
     # Longer responses
     response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
@@ -56,6 +60,21 @@ def check_all_messages(message):
 # Used to get the response
 def get_response(user_input):
     split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
+
+    def openFile():
+        filepath = filedialog.askopenfilename(initialdir="C:\\Users\\Cakow\\PycharmProjects\\Main",
+                                          title="Open file okay?",
+                                          filetypes= (("text files","*.txt"),
+                                          ("all files","*.*")))
+        file = open(filepath,'r')
+        print(file.read())
+        file.close()
+   
+    if split_message[0]=="import":
+        print('in loop')
+        openFile()
+        return 'okay'
+
     response = check_all_messages(split_message)
     return response
 
